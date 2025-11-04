@@ -14,8 +14,6 @@ const to = TimerOutput()
 const N0f8 = FixedPointNumbers.N0f8
 const wrap = PythonCall.pynew() # measure module
 const sys = PythonCall.pynew()
-dir = @__DIR__
-home = dirname(dir)
 const SE = trues(3, 3)
 
 function gc()
@@ -28,10 +26,15 @@ end
 
 function __init__()
     global wrap, sys
-    # println("Adding to python sys : ", home)
     PythonCall.pycopy!(sys, PythonCall.pyimport("sys"))
+    home = dirname(@__DIR__)
+    @warn "MAGE_SKIMAGE_MEASURE dirname : $home"
     sys.path.insert(0, home)
-    return PythonCall.pycopy!(wrap, PythonCall.pyimport("wrap"))
+    return try
+        PythonCall.pycopy!(wrap, PythonCall.pyimport("wrap"))
+    catch e
+        @info "Could not load wrap.py from source ?"
+    end
 end
 
 bundle_float_skimagemeasure = FunctionBundle(UTCGP.float_caster, () -> 0.0)
