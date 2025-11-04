@@ -29,11 +29,13 @@ function __init__()
     PythonCall.pycopy!(sys, PythonCall.pyimport("sys"))
     home = dirname(@__DIR__)
     @warn "MAGE_SKIMAGE_MEASURE dirname : $home"
+    @warn "Files in dir : $(readdir(home))"
     sys.path.insert(0, home)
     return try
         PythonCall.pycopy!(wrap, PythonCall.pyimport("wrap"))
     catch e
         @info "Could not load wrap.py from source ?"
+        @error e
     end
 end
 
