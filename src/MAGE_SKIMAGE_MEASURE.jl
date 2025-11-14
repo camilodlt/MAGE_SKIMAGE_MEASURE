@@ -742,12 +742,12 @@ export bundle_float_skimagemeasure
 end
 
 # Turn this into a macro :
-# interpolated_quote = quote
+# interplatedquote = quote
 #     struct $new_fn_name{T} <: UTCGP.AbstractFunction
 #         operation::T
 #     end
 #     function (callable::$new_fn_name)(img::CONCT, args::Vararg{Any}) where {CONCT <: $I}
-#         return remotecall_fetch(run_op, rand(workers()), img, _solidity, callable.operation)
+# interplatedquote = quote
 #     end
 #     $new_fn_name{typeof($op)}($op)
 # end
